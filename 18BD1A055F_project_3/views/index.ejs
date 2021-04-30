@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <title>IMS</title>
+</head>
+<body>
+    <div class="jumbotron" style="background-color: #7952b3; text-align: center; color: white;">
+        <h1>Inventory Management System</h1>      
+    </div>
+    <br>
+    <div class="container">
+        <p>Welcome to XYZ shoe store</p>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Catogory</th>
+                <th scope="col">Size</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Price</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (var i = 0; i < details.length; i++) {%>
+                <tr data-id = "<%= details[i]._id %>">
+                    <td><%= details[i]._id %></td>
+                    <td><%= details[i].Category %></td>
+                    <td><%= details[i].Size %></td>
+                    <td><%= details[i].Stock %></td>
+                    <td><%= details[i].Price %></td>
+                    <td>
+                        <button id = "updateButton" type="button" class="btn" data-toggle="modal" data-target="#updateForm">
+                            <i class='fas fa-edit'></i>
+                        </button>
+                    </td>
+                    <td>
+                        <a class = "btn" href = "/delete/<%= details[i]._id %>"><i class="fas fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+              <% } %>
+            </tbody>
+        </table>
+
+        <div style="float:right">
+            <button id = "addButton" type="button" class="btn btn-success" data-toggle="modal" data-target="#addForm">
+                + Add
+            </button>
+        </div>
+
+        <div id="updateForm" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Update form</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="POST" action = "/update">
+                            <div class="form-group">
+                                <label class="control-label">ID</label>
+                                <div>
+                                    <input type="text" class="form-control input-lg" id = "_id" name="_id" value="" readonly = "true">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Category</label>
+                                <div>
+                                    <input type="text" class="form-control input-lg" name="Category">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Size</label>
+                                <div>
+                                    <input type="number" class="form-control input-lg" name="Size">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Stock</label>
+                                <div>
+                                    <input type="text" class="form-control input-lg" name="Stock">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Price</label>
+                                <div>
+                                    <input type="text" class="form-control input-lg" name="Price">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                </div>
+                            </div>
+                        </form>     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="addForm" class="modal fade">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title">Add Product</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form" method="POST" action = "/add">
+                            <div class="form-group">
+                                <label class="control-label">Category</label>
+                                <div>
+                                    <input type="text" class="form-control input-lg" name="Category">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Size</label>
+                                <div>
+                                    <input type="number" class="form-control input-lg" name="Size">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Stock</label>
+                                <div>
+                                    <input type="text" class="form-control input-lg" name="Stock">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Price</label>
+                                <div>
+                                    <input type="text" class="form-control input-lg" name="Price">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <button type="submit" class="btn btn-success">Add</button>
+                                </div>
+                            </div>
+                        </form>     
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        $('#updateButton').click(function (e) {
+            var tr = $(this).closest('tr');
+            var id = tr[0].dataset.id;
+            $('#updateForm').on('show.bs.modal', function (e) {
+                $("#_id").val(id);
+            })
+            
+        });
+        
+    </script>
+</body>
+</html>
